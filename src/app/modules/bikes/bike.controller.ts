@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import { bikeService } from './bike.service';
 
@@ -12,7 +11,7 @@ const createBike = async (req: Request, res: Response) => {
             status: true,
             data: result,
         });
-    } catch (error: any) {
+    } catch (error: unknown) {
         res.status(500).json({
             status: false,
             message: `Validation failed`,
@@ -31,7 +30,7 @@ const getBikes = async (req: Request, res: Response) => {
             status: true,
             data: result,
         });
-    } catch (error: any) {
+    } catch (error: unknown) {
         res.status(500).json({
             status: false,
             message: 'Something went wrong when retrieving bikes',
@@ -59,7 +58,7 @@ const getSingleBike = async (req: Request, res: Response) => {
             status: true,
             data: result,
         });
-    } catch (error: any) {
+    } catch (error: unknown) {
         res.status(500).json({
             message: 'Something went wrong when retrieving the bike',
             status: false,
@@ -88,7 +87,7 @@ const updateBike = async (req: Request, res: Response) => {
             message: 'Bike updated successfully',
             data: result,
         });
-    } catch (error: any) {
+    } catch (error: unknown) {
         res.status(500).json({
             message: 'Something went wrong when updating the bike',
             status: false,
@@ -117,7 +116,7 @@ const deleteBike = async (req: Request, res: Response) => {
             status: true,
             data: {},
         });
-    } catch (error: any) {
+    } catch (error: unknown) {
         res.status(500).json({
             message: 'Something went wrong when deleting the bike',
             status: false,
