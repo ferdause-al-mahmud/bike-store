@@ -1,16 +1,17 @@
-//app.ts
-
-import express, { Application, Request, Response } from 'express';
+import express, { Application } from 'express';
 import cors from 'cors';
+import bikeRouter from './modules/bikes/bike.route';
+import orderRouter from './modules/orders/order.route';
+
 const app: Application = express();
-// const port = 3000
+
 app.use(express.json());
 app.use(cors());
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!');
-});
+app.use('/api/products', bikeRouter);
 
-console.log(process.cwd());
+app.use('/api/orders', orderRouter);
+
+
 
 export default app;
