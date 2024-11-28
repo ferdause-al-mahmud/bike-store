@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import { orderService } from './order.service';
 const createOrder = async (req: Request, res: Response) => {
@@ -11,7 +10,7 @@ const createOrder = async (req: Request, res: Response) => {
             status: true,
             data: result,
         });
-    } catch (error: any) {
+    } catch (error: unknown) {
         res.status(500).json({
             status: false,
             message: 'Something went wrong',
