@@ -1,3 +1,4 @@
+import { FilterQuery } from "mongoose";
 import { IBike } from "./bike.interface";
 import Bike from "./bike.model";
 
@@ -10,9 +11,8 @@ const createBike = async (payload: IBike): Promise<IBike> => {
 };
 
 
-const getBikes = async (): Promise<IBike[]> => {
-    const result = await Bike.find();
-    return result;
+const getBikes = async (filter: FilterQuery<IBike> = {}): Promise<IBike[]> => {
+    return await Bike.find(filter);
 };
 
 const getSingleBike = async (id: string): Promise<IBike | null> => {

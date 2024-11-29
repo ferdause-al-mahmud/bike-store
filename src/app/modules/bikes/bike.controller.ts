@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import { bikeService } from './bike.service';
 
@@ -11,7 +12,7 @@ const createBike = async (req: Request, res: Response) => {
             status: true,
             data: result,
         });
-    } catch (error: unknown) {
+    } catch (error: any) {
         res.status(500).json({
             status: false,
             message: `Validation failed`,
@@ -23,19 +24,41 @@ const createBike = async (req: Request, res: Response) => {
 
 const getBikes = async (req: Request, res: Response) => {
     try {
-        const result = await bikeService.getBikes();
+        const { searchTerm } = req.query;
+        let filter = {};
+
+        if (searchTerm) {
+            const regex = new RegExp(searchTerm as string, 'i');
+            filter = {
+                $or: [
+                    { name: regex },
+                    { brand: regex },
+                    { category: regex },
+                ],
+            };
+        }
+
+        const result = await bikeService.getBikes(filter);
+
+        if (result.length === 0) {
+            return res.status(404).json({
+                message: 'No bikes found matching the search criteria',
+                status: false,
+                data: [],
+            });
+        }
 
         res.status(200).json({
             message: 'Bikes retrieved successfully',
             status: true,
             data: result,
         });
-    } catch (error: unknown) {
+    } catch (error: any) {
         res.status(500).json({
             status: false,
             message: 'Something went wrong when retrieving bikes',
             error,
-            stack: error?.stack
+            stack: error?.stack,
         });
     }
 };
@@ -58,7 +81,7 @@ const getSingleBike = async (req: Request, res: Response) => {
             status: true,
             data: result,
         });
-    } catch (error: unknown) {
+    } catch (error: any) {
         res.status(500).json({
             message: 'Something went wrong when retrieving the bike',
             status: false,
@@ -87,7 +110,7 @@ const updateBike = async (req: Request, res: Response) => {
             message: 'Bike updated successfully',
             data: result,
         });
-    } catch (error: unknown) {
+    } catch (error: any) {
         res.status(500).json({
             message: 'Something went wrong when updating the bike',
             status: false,
@@ -116,7 +139,7 @@ const deleteBike = async (req: Request, res: Response) => {
             status: true,
             data: {},
         });
-    } catch (error: unknown) {
+    } catch (error: any) {
         res.status(500).json({
             message: 'Something went wrong when deleting the bike',
             status: false,

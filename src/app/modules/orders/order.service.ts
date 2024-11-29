@@ -8,8 +8,13 @@ const createOrder = async (payload: IOrder): Promise<IOrder> => {
     return result;
 
 };
+const getAllOrders = async (): Promise<IOrder[]> => {
+    const result = await Order.find();
+    return result;
+};
 
 
 export const orderService = {
     createOrder,
+    getAllOrders
 };
