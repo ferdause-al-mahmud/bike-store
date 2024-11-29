@@ -70,8 +70,9 @@ cd bike-store
 
 ### 2. Install Dependencies
 
+```bash
 npm install
-Environment Variables
+```
 
 ### 3. Environment Variables
 
@@ -82,4 +83,6 @@ DATABASE_URL=The MongoDB connection URL
 
 ### 3. 📦 Running the Project
 
+```bash
 npm run dev
+```
