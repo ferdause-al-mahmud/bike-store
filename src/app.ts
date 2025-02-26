@@ -1,22 +1,31 @@
-import express, { Application } from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
-import bikeRouter from './app/modules/bikes/bike.route';
-import orderRouter from './app/modules/orders/order.route';
-
-const app: Application = express();
+import cookieParser from 'cookie-parser';
+import { notFound } from './app/middleware/notFound';
+import { globalErrorHandler } from './app/middleware/globalErrorHandler';
+import route from './app/route/route';
+const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(
+    cors({
+        origin: ['http://localhost:5173'],
+        credentials: true,
+    }),
+);
+app.use(cookieParser());
 
-// Root route
-app.get('/', (req, res) => {
+app.use('/api', route);
+
+app.get('/', (req: Request, res: Response) => {
     res.status(200).json({
-        message: 'Welcome to the Bike Store API!',
-        status: true,
+        success: true,
+        message: 'Welcome to Bike Store',
     });
 });
 
-app.use('/api/products', bikeRouter);
-app.use('/api/orders', orderRouter);
+app.use(globalErrorHandler);
+
+app.use(notFound);
 
 export default app;
