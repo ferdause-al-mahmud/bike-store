@@ -11,17 +11,22 @@ const createBike = async (payload: IBike): Promise<IBike> => {
 };
 
 
-const getBikes = async (query: Record<string, unknown>): Promise<IBike[]> => {
-
-    const bikeQuery = new QueryBuilder(Bike.find(), query)
+const getBikes = async (query: Record<string, unknown>): Promise<{ bikes: IBike[], totalItems: number }> => {
+    // Create a query builder instance without pagination for counting total items
+    const totalQuery = new QueryBuilder(Bike.find(), query)
         .search(['name', 'brand', 'category'])
         .price()
-        .filter()
-        .sort()
-        .paginate();
+        .filter();
 
-    return await bikeQuery.modelQuery;
+    const totalItems = await totalQuery.modelQuery.clone().countDocuments(); // Count total items
+
+    // Apply pagination after counting total items
+    const bikeQuery = totalQuery.sort().paginate();
+    const bikes = await bikeQuery.modelQuery;
+
+    return { bikes, totalItems }; // Return both bikes and total count
 };
+
 
 const getSingleBike = async (id: string): Promise<IBike | null> => {
     const result = await Bike.findById(id);

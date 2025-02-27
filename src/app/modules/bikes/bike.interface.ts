@@ -5,7 +5,7 @@ export type IBike = {
     brand: string;
     price: number;
     image?: string;
-    category: 'Mountain' | 'Road' | 'Sport' | 'Electric|Superbike';
+    category: 'Mountain' | 'Road' | 'Sport' | 'Electric' | 'Superbike';
     description: string;
     quantity: number;
     inStock: boolean;

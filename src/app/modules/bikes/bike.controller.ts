@@ -7,20 +7,27 @@ const createBike = catchAsync(async (req: Request, res: Response) => {
     const result = await bikeService.createBike(req.body);
     res.status(201).json({ message: 'Bike created successfully', status: true, data: result });
 });
+const getAllBikes = async (req: Request, res: Response) => {
+    try {
+        const query = req.query;
+        const { bikes, totalItems } = await bikeService.getBikes(query);
 
-const getBikes = catchAsync(async (req: Request, res: Response) => {
-    const { searchTerm } = req.query;
-    const filter = searchTerm
-        ? { $or: [{ name: new RegExp(searchTerm as string, 'i') }, { brand: new RegExp(searchTerm as string, 'i') }, { category: new RegExp(searchTerm as string, 'i') }] }
-        : {};
-
-    const result = await bikeService.getBikes(filter);
-    if (!result.length) {
-        return res.status(404).json({ message: 'No bikes found matching the search criteria', status: false, data: [] });
+        res.json({
+            status: true,
+            message: 'Bikes retrieved successfully',
+            data: bikes,
+            totalItems, // Send total number of bikes
+        });
+    } catch (error: any) {
+        res.status(400).json({
+            status: false,
+            message: 'Validation failed',
+            error: error.message,
+            stack: error?.stack,
+        });
     }
+};
 
-    res.status(200).json({ message: 'Bikes retrieved successfully', status: true, data: result });
-});
 
 const getSingleBike = catchAsync(async (req: Request, res: Response) => {
     const result = await bikeService.getSingleBike(req.params.productId);
@@ -49,4 +56,11 @@ const deleteBike = catchAsync(async (req: Request, res: Response) => {
     res.status(200).json({ message: 'Bike deleted successfully', status: true, data: {} });
 });
 
-export const BikeController = { createBike, getBikes, getSingleBike, updateBike, deleteBike };
+export const BikeController = {
+    createBike,
+    //  getBikes,
+    getAllBikes,
+    getSingleBike,
+    updateBike,
+    deleteBike
+};
