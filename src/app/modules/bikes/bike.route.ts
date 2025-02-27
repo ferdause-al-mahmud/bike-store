@@ -1,12 +1,13 @@
 import express from 'express';
 import { BikeController } from './bike.controller';
+import { auth } from '../../middleware/auth';
 
 const bikeRouter = express.Router();
 
-bikeRouter.post('/', BikeController.createBike);
+bikeRouter.post('/', auth('admin'), BikeController.createBike);
 bikeRouter.get('/', BikeController.getBikes);
 bikeRouter.get('/:productId', BikeController.getSingleBike);
-bikeRouter.put('/:productId', BikeController.updateBike);
-bikeRouter.delete('/:productId', BikeController.deleteBike);
+bikeRouter.put('/:productId', auth('admin'), BikeController.updateBike);
+bikeRouter.delete('/:productId', auth('admin'), BikeController.deleteBike);
 
 export default bikeRouter;

@@ -20,10 +20,14 @@ const bikeSchema = new Schema<IBike>(
         category: {
             type: String,
             enum: {
-                values: ["Mountain", "Road", "Hybrid", "Electric"],
-                message: "Category must be one of Mountain, Road, Hybrid, or Electric",
+                values: ["Mountain", "Road", "Sport", "Electric", "Superbike"],
+                message: "Category must be one of Mountain, Road, Sport, Superbike, or Electric",
             },
             required: [true, "Category is required"],
+        },
+        image: {
+            type: String,
+            // required: true,
         },
         description: {
             type: String,

@@ -12,9 +12,13 @@ const getAllOrders = async (): Promise<IOrder[]> => {
     const result = await Order.find();
     return result;
 };
-
+const updateOrder = async (id: string, payload: Partial<IOrder>) => {
+    const result = await Order.findByIdAndUpdate(id, payload, { new: true });
+    return result;
+};
 
 export const orderService = {
     createOrder,
-    getAllOrders
+    getAllOrders,
+    updateOrder
 };
