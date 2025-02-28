@@ -9,9 +9,16 @@ const createOrder = async (payload: IOrder): Promise<IOrder> => {
 
 };
 const getAllOrders = async (): Promise<IOrder[]> => {
-    const result = await Order.find();
+    const result = await Order.find({}).populate('product');
     return result;
 };
+
+const getUserOrder = async (email: string) => {
+    const result = await Order.find({ email }).populate('product');
+    return result;
+};
+
+
 const updateOrder = async (id: string, payload: Partial<IOrder>) => {
     const result = await Order.findByIdAndUpdate(id, payload, { new: true });
     return result;
@@ -20,5 +27,6 @@ const updateOrder = async (id: string, payload: Partial<IOrder>) => {
 export const orderService = {
     createOrder,
     getAllOrders,
-    updateOrder
+    updateOrder,
+    getUserOrder
 };

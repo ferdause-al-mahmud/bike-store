@@ -6,4 +6,5 @@ export type IOrder = {
     product: Types.ObjectId;
     quantity: number;
     totalPrice: number;
+    status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'canceled';
 }

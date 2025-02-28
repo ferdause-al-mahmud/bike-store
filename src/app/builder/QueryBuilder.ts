@@ -44,7 +44,6 @@ class QueryBuilder<T> {
   filter() {
     const queryObj = { ...this.query };
     excludedFields.forEach((el) => delete queryObj[el]);
-    console.log(queryObj);
     for (const key in queryObj) {
       if (queryObj[key] === 'null') {
         delete queryObj[key];
@@ -55,7 +54,6 @@ class QueryBuilder<T> {
   }
 
   sort() {
-    console.log('Query', this?.query);
     const sort = (this?.query?.sort as string) || '-createdAt';
     this.modelQuery = this.modelQuery.sort(sort);
     return this;

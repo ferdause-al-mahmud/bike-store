@@ -5,6 +5,7 @@ import { orderController } from "./order.controller";
 const orderRouter = express.Router();
 
 orderRouter.post("/", orderController.createOrder);
+orderRouter.get('/:email', orderController.getUserOrder);
 
 orderRouter.get("/revenue", orderController.getRevenue);
 orderRouter.put('/:orderId', orderController.updateOrder);
